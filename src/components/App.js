@@ -130,7 +130,7 @@ const App = function () {
 
   const handleCardDelete = async (card) => {
     try {
-      const res = await api.deleteCard(card._id);
+      await api.deleteCard(card._id);
       closeAllPopups();
       setLoaderActive(true);
 
@@ -166,23 +166,27 @@ const App = function () {
    * Отрисовка первоначальных данных при монтировании компонента.
    * (Promise.allSettled)
    */
-  useEffect(async () => {
-    try {
-      const dataArray = await api.getAllInitialData();
-      const [dataUser, dataCards] = dataArray.map((item) => item.value);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dataArray = await api.getAllInitialData();
+        const [dataUser, dataCards] = dataArray.map((item) => item.value);
 
-      if (dataUser) {
-        setCurrentUser(dataUser);
-      }
+        if (dataUser) {
+          setCurrentUser(dataUser);
+        }
 
-      if (dataCards) {
-        setCards(dataCards);
+        if (dataCards) {
+          setCards(dataCards);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoaderActive(false);
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoaderActive(false);
-    }
+    };
+
+    fetchData();
   }, []);
 
   //Обработчик закрытия попапа по клику на Escape
