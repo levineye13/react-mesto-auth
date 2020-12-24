@@ -2,12 +2,7 @@ import React, { useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { useFormWithValidation } from './../hooks/useFormWithValidation';
 
-const AddPlacePopup = function ({
-  isOpen,
-  onClose,
-  onScreenClickClose,
-  onAddPlace,
-}) {
+const AddPlacePopup = ({ isOpen, onClose, onScreenClickClose, onAddPlace }) => {
   const {
     values,
     handleInputChange,

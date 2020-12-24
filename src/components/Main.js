@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Card from './Card';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
 
-const Main = function ({
+const Main = ({
   onEditProfile,
   onAddPlace,
   onEditAvatar,
@@ -10,7 +10,7 @@ const Main = function ({
   onDeleteButtonClick,
   cards,
   onCardLike,
-}) {
+}) => {
   const currentUser = useContext(CurrentUserContext);
 
   return (

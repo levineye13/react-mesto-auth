@@ -3,12 +3,12 @@ import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
 import { useFormWithValidation } from './../hooks/useFormWithValidation';
 
-const EditProfilePopup = function ({
+const EditProfilePopup = ({
   isOpen,
   onClose,
   onScreenClickClose,
   onUpdateUser,
-}) {
+}) => {
   const currentUser = useContext(CurrentUserContext);
   const {
     values,
