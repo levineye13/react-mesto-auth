@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import ProtectedRoute from '../hoc/ProtectedRoute';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -10,17 +11,19 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeleteCardPopup from './ConfirmDeleteCardPopup';
+import InfoTooltip from './InfoTooltip';
 import { api } from './../utils/api';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
 import Loader from './Loader';
 import avatarImg from './../images/profile__avatar.jpg';
 
 const App = () => {
-  //const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
+  const [isInfoTooltipPopup, setInfoTooltipPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [removableCard, setRemovableCard] = useState(null);
@@ -216,21 +219,18 @@ const App = () => {
           <Switch>
             <Route path="/sign-in" component={Login} />
             <Route path="/sign-up" component={Register} />
-            <Route exact path="/">
-              {/* {isAuth ? ( */}
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onDeleteButtonClick={handleDeleteButtonClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-              />
-              {/* ) : (
-              <Redirect to="/sign-in" />
-              )} */}
-            </Route>
+            <ProtectedRoute
+              component={Main}
+              isAuth={isAuth}
+              path="/"
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onDeleteButtonClick={handleDeleteButtonClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+            />
           </Switch>
           <Footer />
           <EditProfilePopup
@@ -263,6 +263,7 @@ const App = () => {
             onClose={closeAllPopups}
             onScreenClickClose={handleScreenClickClose}
           />
+          <InfoTooltip onClose={closeAllPopups} />
           {isLoaderActive && <Loader />}
         </div>
       </div>
