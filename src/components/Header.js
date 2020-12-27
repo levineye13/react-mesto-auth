@@ -27,9 +27,16 @@ const Header = function ({ loggedIn }) {
   return (
     <header className="header">
       <img src={headerLogo} alt="Логотип Место" className="header__logo" />
-      <Link to={loggedIn ? signIn : url} className="header__link">
-        {loggedIn ? 'Выйти' : text}
-      </Link>
+      <ul className="header__list">
+        <li className="header__item">
+          <p className="header__email">{loggedIn && 'email@mail.com'}</p>
+        </li>
+        <li className="header__item">
+          <Link to={loggedIn ? signIn : url} className="header__link">
+            {loggedIn ? 'Выйти' : text}
+          </Link>
+        </li>
+      </ul>
     </header>
   );
 };
