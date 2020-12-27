@@ -8,7 +8,7 @@ class Auth {
     if (res.ok) {
       return res.json();
     }
-    throw new Error('Ошибка');
+    throw new Error(`${res.status} - ${res.statusText}`);
   };
 
   register = async ({ password, email }) => {
@@ -69,4 +69,4 @@ const auth = new Auth({
   },
 });
 
-export default auth;
+export { auth };
