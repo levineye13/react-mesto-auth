@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
+import { useFormWithValidation } from '../hooks/useFormWithValidation';
 
-const Login = () => {
+const Login = ({ onAuthorization }) => {
+  const {
+    values,
+    handleInputChange,
+    errors,
+    isValid,
+    resetForm,
+  } = useFormWithValidation();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    onAuthorization({
+      password: values.password,
+      email: values.email,
+    });
+  };
+
+  // useEffect(() => {
+  //   resetForm();
+  // }, [resetForm]);
+
   const markup = (
     <fieldset className="popup__info">
       <label className="popup__form-field">
         <input
-          // value={values.place || ''}
-          // onChange={handleInputChange}
+          value={values.email || ''}
+          onChange={handleInputChange}
           type="email"
           id="email-input"
           className="popup__input popup__input_theme_dark"
@@ -17,13 +39,13 @@ const Login = () => {
           maxLength="30"
         />
         <span className="popup__error" id="place-input-error">
-          {/* {errors.place || ''} */}
+          {errors.email || ''}
         </span>
       </label>
       <label className="popup__form-field">
         <input
-          // value={values.link || ''}
-          // onChange={handleInputChange}
+          value={values.password || ''}
+          onChange={handleInputChange}
           type="password"
           id="password-input"
           className="popup__input popup__input_theme_dark"
@@ -32,7 +54,7 @@ const Login = () => {
           required
         />
         <span className="popup__error" id="link-input-error">
-          {/* {errors.link || ''} */}
+          {errors.password || ''}
         </span>
       </label>
     </fieldset>
@@ -47,10 +69,10 @@ const Login = () => {
       isOpen={true}
       link={null}
       hasCloseButton={false}
-      //onClose={''}
-      //onScreenClickClose={''}
-      //onSubmit={''}
-      isValid={true}
+      onClose={null}
+      onScreenClickClose={null}
+      onSubmit={handleSubmit}
+      isValid={isValid}
     />
   );
 };

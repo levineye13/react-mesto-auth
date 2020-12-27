@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PopupWithForm from './PopupWithForm';
+import { useFormWithValidation } from '../hooks/useFormWithValidation';
 
-const Register = () => {
+const Register = ({ onRegistration }) => {
+  const {
+    values,
+    handleInputChange,
+    errors,
+    isValid,
+    resetForm,
+  } = useFormWithValidation();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    onRegistration({
+      password: values.password,
+      email: values.email,
+    });
+  };
+
+  // useEffect(() => {
+  //   resetForm();
+  // }, [resetForm]);
+
   const markup = (
     <fieldset className="popup__info">
       <label className="popup__form-field">
         <input
-          // value={values.place || ''}
-          // onChange={handleInputChange}
+          value={values.email || ''}
+          onChange={handleInputChange}
           type="email"
           id="email-input"
           className="popup__input popup__input_theme_dark"
@@ -18,13 +40,13 @@ const Register = () => {
           maxLength="30"
         />
         <span className="popup__error" id="place-input-error">
-          {/* {errors.place || ''} */}
+          {errors.email || ''}
         </span>
       </label>
       <label className="popup__form-field">
         <input
-          // value={values.link || ''}
-          // onChange={handleInputChange}
+          value={values.password || ''}
+          onChange={handleInputChange}
           type="password"
           id="password-input"
           className="popup__input popup__input_theme_dark"
@@ -33,7 +55,7 @@ const Register = () => {
           required
         />
         <span className="popup__error" id="link-input-error">
-          {/* {errors.link || ''} */}
+          {errors.password || ''}
         </span>
       </label>
     </fieldset>
@@ -56,8 +78,8 @@ const Register = () => {
       hasCloseButton={false}
       //onClose={''}
       //onScreenClickClose={''}
-      //onSubmit={''}
-      isValid={true}
+      onSubmit={handleSubmit}
+      isValid={isValid}
     />
   );
 };

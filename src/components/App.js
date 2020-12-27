@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../hoc/ProtectedRoute';
 import Header from './Header';
 import Main from './Main';
@@ -12,13 +12,16 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeleteCardPopup from './ConfirmDeleteCardPopup';
 import InfoTooltip from './InfoTooltip';
-import { api } from './../utils/api';
+import { api } from '../utils/api';
+import { auth } from '../utils/auth';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
 import Loader from './Loader';
 import avatarImg from './../images/profile__avatar.jpg';
+import { signIn, signUp } from '../utils/constants';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState('');
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -28,6 +31,8 @@ const App = () => {
   const [cards, setCards] = useState([]);
   const [removableCard, setRemovableCard] = useState(null);
   const [isLoaderActive, setLoaderActive] = useState(true);
+
+  const history = useHistory();
 
   //Дефолтная инициализация в случае невыполнения запроса к api.
   const [currentUser, setCurrentUser] = useState({
@@ -169,6 +174,29 @@ const App = () => {
     }
   };
 
+  const handleAuthorization = async ({ password, email }) => {
+    try {
+      const res = await auth.authorize({ password, email });
+      if (res) {
+        setLoggedIn(true);
+        history.push('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRegistration = async ({ password, email }) => {
+    try {
+      const res = await auth.register({ password, email });
+      if (res) {
+        history.push(signIn);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   /**
    * Отрисовка первоначальных данных при монтировании компонента.
    * (Promise.allSettled)
@@ -215,10 +243,14 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
-          <Header loggedIn={loggedIn} />
+          <Header loggedIn={loggedIn} email={email} />
           <Switch>
-            <Route path="/sign-in" component={Login} />
-            <Route path="/sign-up" component={Register} />
+            <Route path={signIn}>
+              <Login onAuthorization={handleAuthorization} />
+            </Route>
+            <Route path={signUp}>
+              <Register onRegistration={handleRegistration} />
+            </Route>
             <ProtectedRoute
               component={Main}
               loggedIn={loggedIn}
