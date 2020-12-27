@@ -12,7 +12,7 @@ const PopupWithForm = ({
   onSubmit,
   isValid,
   link,
-  hasCloseButton,
+  hasCloseButton = true,
 }) => {
   const modalElement = document.getElementById('modal');
 

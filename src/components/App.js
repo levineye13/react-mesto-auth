@@ -18,7 +18,7 @@ import Loader from './Loader';
 import avatarImg from './../images/profile__avatar.jpg';
 
 const App = () => {
-  const [isAuth, setAuth] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -215,13 +215,13 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
-          <Header />
+          <Header loggedIn={loggedIn} />
           <Switch>
             <Route path="/sign-in" component={Login} />
             <Route path="/sign-up" component={Register} />
             <ProtectedRoute
               component={Main}
-              isAuth={isAuth}
+              loggedIn={loggedIn}
               path="/"
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
