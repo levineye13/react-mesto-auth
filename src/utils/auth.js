@@ -21,8 +21,7 @@ class Auth {
           email,
         }),
       });
-      const data = await this._checkResponceStatus(res);
-      return data;
+      return this._checkResponceStatus(res);
     } catch (err) {
       console.error(`${err.name} - ${err.message}`);
     }
@@ -38,8 +37,7 @@ class Auth {
           email,
         }),
       });
-      const data = await this._checkResponceStatus(res);
-      return data;
+      return this._checkResponceStatus(res);
     } catch (err) {
       console.error(`${err.name} - ${err.message}`);
     }
@@ -54,8 +52,7 @@ class Auth {
           Authorization: `Bearer ${token}`,
         },
       });
-      const data = await this._checkResponceStatus(res);
-      return data;
+      return this._checkResponceStatus(res);
     } catch (err) {
       console.error(`${err.name} - ${err.message}`);
     }
