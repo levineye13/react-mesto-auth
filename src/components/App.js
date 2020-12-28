@@ -15,7 +15,6 @@ import InfoTooltip from './InfoTooltip';
 import { api } from '../utils/api';
 import { auth } from '../utils/auth';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
-import Loader from './Loader';
 import avatarImg from './../images/profile__avatar.jpg';
 import { JWT, signIn, signUp } from '../utils/constants';
 
@@ -30,7 +29,6 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [removableCard, setRemovableCard] = useState(null);
-  const [isLoaderActive, setLoaderActive] = useState(true);
 
   const history = useHistory();
 
@@ -107,7 +105,6 @@ const App = () => {
   const handleUpdateAvatar = async ({ avatar }) => {
     try {
       const res = await api.updateUserAvatar(avatar);
-      setLoaderActive(true);
       if (res) {
         setCurrentUser(res);
       }
@@ -115,7 +112,6 @@ const App = () => {
       console.error(err);
     } finally {
       closeAllPopups();
-      setLoaderActive(false);
     }
   };
 
@@ -144,7 +140,6 @@ const App = () => {
     try {
       await api.deleteCard(card._id);
       closeAllPopups();
-      setLoaderActive(true);
 
       const newCards = cards.filter(
         (currentCard) => currentCard._id !== card._id
@@ -153,8 +148,6 @@ const App = () => {
       setCards(newCards);
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoaderActive(false);
     }
   };
 
@@ -162,15 +155,12 @@ const App = () => {
     try {
       const newCard = await api.addCard({ name, link });
       closeAllPopups();
-      setLoaderActive(true);
 
       if (newCard) {
         setCards([newCard, ...cards]);
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoaderActive(false);
     }
   };
 
@@ -240,8 +230,6 @@ const App = () => {
         }
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoaderActive(false);
       }
     };
 
@@ -324,7 +312,6 @@ const App = () => {
             onScreenClickClose={handleScreenClickClose}
           />
           <InfoTooltip onClose={closeAllPopups} />
-          {isLoaderActive && <Loader />}
         </div>
       </div>
     </CurrentUserContext.Provider>

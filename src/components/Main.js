@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Card from './Card';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
+import Loader from '../components/Loader';
 
 const Main = ({
   onEditProfile,
@@ -37,17 +38,21 @@ const Main = ({
       </section>
       <section className="elements content__elements">
         <ul className="elements__list">
-          {cards.map((card) => {
-            return (
-              <Card
-                card={card}
-                onCardClick={onCardClick}
-                onDeleteButtonClick={onDeleteButtonClick}
-                onCardLike={onCardLike}
-                key={card._id}
-              />
-            );
-          })}
+          {cards.length > 0 ? (
+            cards.map((card) => {
+              return (
+                <Card
+                  card={card}
+                  onCardClick={onCardClick}
+                  onDeleteButtonClick={onDeleteButtonClick}
+                  onCardLike={onCardLike}
+                  key={card._id}
+                />
+              );
+            })
+          ) : (
+            <Loader />
+          )}
         </ul>
       </section>
     </main>
