@@ -17,11 +17,11 @@ import { auth } from '../utils/auth';
 import { CurrentUserContext } from './../contexts/CurrentUserContext';
 import Loader from './Loader';
 import avatarImg from './../images/profile__avatar.jpg';
-import { signIn, signUp } from '../utils/constants';
+import { JWT, signIn, signUp } from '../utils/constants';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
+  const [authorizedUserData, setAuthorizedUserData] = useState(null);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -179,6 +179,7 @@ const App = () => {
       const res = await auth.authorize({ password, email });
       if (res) {
         setLoggedIn(true);
+        localStorage.setItem(JWT, res.token);
         history.push('/');
       }
     } catch (err) {
@@ -196,6 +197,29 @@ const App = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    const jwt = localStorage.getItem(JWT);
+
+    const fetchData = async () => {
+      try {
+        const { data } = await auth.checkToken({
+          token: localStorage.getItem(JWT),
+        });
+        if (data) {
+          setLoggedIn(true);
+          setAuthorizedUserData(data);
+          history.push('/');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (jwt) {
+      fetchData();
+    }
+  }, []);
 
   /**
    * Отрисовка первоначальных данных при монтировании компонента.
@@ -243,7 +267,11 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
-          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} email={email} />
+          <Header
+            loggedIn={loggedIn}
+            setLoggedIn={setLoggedIn}
+            data={authorizedUserData}
+          />
           <Switch>
             <Route path={signIn}>
               <Login onAuthorization={handleAuthorization} />
