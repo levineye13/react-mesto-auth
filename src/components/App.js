@@ -243,7 +243,7 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
-          <Header loggedIn={loggedIn} email={email} />
+          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} email={email} />
           <Switch>
             <Route path={signIn}>
               <Login onAuthorization={handleAuthorization} />

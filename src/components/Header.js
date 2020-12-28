@@ -1,40 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { signIn, signUp } from '../utils/constants.js';
 import headerLogo from './../images/header__logo.svg';
 
-const Header = function ({ loggedIn }) {
-  const location = useLocation();
+const Header = function ({ loggedIn, setLoggedIn, email }) {
+  const { pathname: path } = useLocation();
+  const history = useHistory();
   const [text, setText] = useState('');
   const [url, setUrl] = useState('');
 
-  useEffect(() => {
-    const path = location.pathname;
+  const signOut = () => {
+    setLoggedIn(false);
+    history.push(signIn);
+  };
 
+  useEffect(() => {
     const setData = (path) => {
       if (path === signIn) {
-        setUrl(signUp);
         setText('Регистрация');
+        setUrl(signUp);
       } else if (path === signUp) {
-        setUrl(signIn);
         setText('Войти');
+        setUrl(signIn);
       }
     };
 
     setData(path);
-  }, [location.pathname]);
+  }, [path]);
 
   return (
     <header className="header">
       <img src={headerLogo} alt="Логотип Место" className="header__logo" />
       <ul className="header__list">
         <li className="header__item">
-          <p className="header__email">{loggedIn && 'email@mail.com'}</p>
+          <p className="header__email">{loggedIn && email}</p>
         </li>
         <li className="header__item">
-          <Link to={loggedIn ? signIn : url} className="header__link">
-            {loggedIn ? 'Выйти' : text}
-          </Link>
+          {!loggedIn ? (
+            <Link to={url} className="header__link">
+              {text}
+            </Link>
+          ) : (
+            <button className="header__button" onClick={signOut} type="button">
+              Выйти
+            </button>
+          )}
         </li>
       </ul>
     </header>
