@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { JWT, signIn, signUp } from '../utils/constants.js';
 import headerLogo from './../images/header__logo.svg';
 
-const Header = function ({ loggedIn, setLoggedIn, data }) {
+const Header = ({ loggedIn, setLoggedIn, data }) => {
   const { pathname: path } = useLocation();
   const history = useHistory();
   const [text, setText] = useState('');

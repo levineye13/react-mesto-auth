@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PopupWithForm from './PopupWithForm';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
+import { signIn } from '../utils/constants';
 
 const Register = ({ onRegistration }) => {
   const {
@@ -57,7 +58,7 @@ const Register = ({ onRegistration }) => {
   );
 
   const linkMarkup = (
-    <Link to="/sign-in" className="popup__link">
+    <Link to={signIn} className="popup__link">
       Уже зарегистрированы? Войти
     </Link>
   );
@@ -71,8 +72,8 @@ const Register = ({ onRegistration }) => {
       isOpen={true}
       link={linkMarkup}
       hasCloseButton={false}
-      //onClose={''}
-      //onScreenClickClose={''}
+      onClose={null}
+      onScreenClickClose={null}
       onSubmit={handleSubmit}
       isValid={isValid}
     />
