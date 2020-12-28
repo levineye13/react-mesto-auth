@@ -8,7 +8,6 @@ const Login = ({ onAuthorization }) => {
     handleInputChange,
     errors,
     isValid,
-    resetForm,
   } = useFormWithValidation();
 
   const handleSubmit = (evt) => {
@@ -19,10 +18,6 @@ const Login = ({ onAuthorization }) => {
       email: values.email,
     });
   };
-
-  // useEffect(() => {
-  //   resetForm();
-  // }, [resetForm]);
 
   const markup = (
     <fieldset className="popup__info">

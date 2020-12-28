@@ -9,7 +9,6 @@ const Register = ({ onRegistration }) => {
     handleInputChange,
     errors,
     isValid,
-    resetForm,
   } = useFormWithValidation();
 
   const handleSubmit = (evt) => {
@@ -20,10 +19,6 @@ const Register = ({ onRegistration }) => {
       email: values.email,
     });
   };
-
-  // useEffect(() => {
-  //   resetForm();
-  // }, [resetForm]);
 
   const markup = (
     <fieldset className="popup__info">
