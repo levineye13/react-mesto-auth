@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const InfoTooltip = ({ onClose, isSuccessful = false }) => {
+const InfoTooltip = ({ isOpen, onClose, onScreenClickClose, isSuccessful }) => {
   const modalElement = document.getElementById('modal');
 
   return ReactDOM.createPortal(
-    <section className="popup popup_type_info-tooltip">
+    <section
+      className={`popup popup_type_info-tooltip ${
+        isOpen ? 'popup_opened' : ''
+      }`}
+      onClick={onScreenClickClose}
+    >
       <div className="popup__wrapper popup__wrapper_type_info-tooltip">
         <button className={'popup__close-button button'} onClick={onClose} />
         <figure className="popup__img-container popup__img-container_type_info-tooltip">

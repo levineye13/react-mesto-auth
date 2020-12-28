@@ -26,6 +26,7 @@ const App = () => {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
   const [isInfoTooltipPopup, setInfoTooltipPopup] = useState(false);
+  const [isSuccessfulRegistration, setSuccessfulRegistration] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [removableCard, setRemovableCard] = useState(null);
@@ -38,6 +39,11 @@ const App = () => {
     name: 'Name',
     about: 'Information about you',
   });
+
+  const handleInfoTooltipOpen = (isSuccessful) => {
+    setSuccessfulRegistration(isSuccessful);
+    setInfoTooltipPopup(true);
+  };
 
   /**
    * Обработчик открытия попапа редактирования профиля.
@@ -68,6 +74,7 @@ const App = () => {
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setConfirmPopupOpen(false);
+    setInfoTooltipPopup(false);
     setSelectedCard(null);
   };
 
@@ -166,10 +173,10 @@ const App = () => {
 
   const handleAuthorization = async ({ password, email }) => {
     try {
-      const res = await auth.authorize({ password, email });
-      if (res) {
+      const data = await auth.authorize({ password, email });
+      if (!data.hasOwnProperty('error')) {
         setLoggedIn(true);
-        localStorage.setItem(JWT, res.token);
+        localStorage.setItem(JWT, data.token);
         history.push('/');
       }
     } catch (err) {
@@ -179,9 +186,13 @@ const App = () => {
 
   const handleRegistration = async ({ password, email }) => {
     try {
-      const res = await auth.register({ password, email });
-      if (res) {
+      const data = await auth.register({ password, email });
+
+      if (data.hasOwnProperty('error')) {
+        handleInfoTooltipOpen(false);
+      } else {
         history.push(signIn);
+        handleInfoTooltipOpen(true);
       }
     } catch (err) {
       console.error(err);
@@ -311,7 +322,12 @@ const App = () => {
             onClose={closeAllPopups}
             onScreenClickClose={handleScreenClickClose}
           />
-          <InfoTooltip onClose={closeAllPopups} />
+          <InfoTooltip
+            isOpen={isInfoTooltipPopup}
+            onClose={closeAllPopups}
+            onScreenClickClose={handleScreenClickClose}
+            isSuccessful={isSuccessfulRegistration}
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>

@@ -5,10 +5,7 @@ class Auth {
   }
 
   _checkResponceStatus = async (res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    throw new Error(`${res.status} - ${res.statusText}`);
+    return res.ok ? res.json() : { error: `${res.status} - ${res.statusText}` };
   };
 
   register = async ({ password, email }) => {
