@@ -35,13 +35,13 @@ const EditAvatarPopup = function ({
           value={values.link || ''}
           onChange={handleInputChange}
           type="url"
-          id="link-input"
+          id="input-link"
           className="popup__input"
           name="link"
           placeholder="Ссылка на картинку"
           required
         />
-        <span className="popup__error" id="link-input-error">
+        <span className="popup__error" id="input-link-error">
           {errors.link || ''}
         </span>
       </label>
