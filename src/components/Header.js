@@ -35,7 +35,7 @@ const Header = ({ loggedIn, setLoggedIn, data }) => {
   }, [path]);
 
   return (
-    <header className="header">
+    <header className="header page__header">
       <img src={headerLogo} alt="Логотип Место" className="header__logo" />
       <button className="header__button-menu" onClick={toggleButtonMenuState}>
         <span
