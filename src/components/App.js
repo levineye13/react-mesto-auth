@@ -40,6 +40,10 @@ const App = () => {
     about: 'Information about you',
   });
 
+  /**
+   * Обработчик открытия попапа c всплывающей подсказкой
+   * @param  {Boolean} isSuccessful - успешность регистрации
+   */
   const handleInfoTooltipOpen = (isSuccessful) => {
     setSuccessfulRegistration(isSuccessful);
     setInfoTooltipPopup(true);
@@ -78,6 +82,10 @@ const App = () => {
     setSelectedCard(null);
   };
 
+  /**
+   * Обработчик закрытия попапа кликом по экрану
+   * @param  {Object} {target} - event target
+   */
   const handleScreenClickClose = ({ target }) => {
     if (target.classList.contains('popup')) {
       closeAllPopups();
@@ -91,11 +99,20 @@ const App = () => {
     setSelectedCard(card);
   };
 
+  /**
+   * Обработчик удаления карточки по клику на кнопку
+   * @param  {Object} card - карточка
+   */
   const handleDeleteButtonClick = (card) => {
     setConfirmPopupOpen(true);
     setRemovableCard(card);
   };
 
+  /**
+   * Обработчик обновления информации о пользователе
+   * @param  {String} name - никнейм пользователя
+   * @param  {String} about - дополнительная информация о пользователе
+   */
   const handleUpdateUser = async ({ name, about }) => {
     try {
       const res = await api.setUserInfo({ name, about });
@@ -109,6 +126,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик обновления аватарки
+   * @param  {String} {avatar} - ссылка на картинку
+   */
   const handleUpdateAvatar = async ({ avatar }) => {
     try {
       const res = await api.updateUserAvatar(avatar);
@@ -122,6 +143,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик лайка/дислайка карточки
+   * @param  {Object} card - карточка
+   */
   const handleCardLike = async (card) => {
     const isLiked = card.likes.some((like) => currentUser._id === like._id);
 
@@ -143,6 +168,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик удаления карточки
+   * @param  {Object} card - карточка
+   */
   const handleCardDelete = async (card) => {
     try {
       await api.deleteCard(card._id);
@@ -158,6 +187,11 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик добавления карточки
+   * @param  {String} name - название места
+   * @param  {String} link - ссылка на картинку
+   */
   const handleAddPlaceSubmit = async ({ name, link }) => {
     try {
       const newCard = await api.addCard({ name, link });
@@ -171,6 +205,11 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик авторизации пользователя
+   * @param  {String} password
+   * @param  {String} email
+   */
   const handleAuthorization = async ({ password, email }) => {
     try {
       const data = await auth.authorize({ password, email });
@@ -184,6 +223,11 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик регистрации пользователя
+   * @param  {String} password
+   * @param  {String} email
+   */
   const handleRegistration = async ({ password, email }) => {
     try {
       const data = await auth.register({ password, email });
@@ -198,6 +242,9 @@ const App = () => {
     }
   };
 
+  /**
+   * Обработчик проверки токена
+   */
   const handleCheckToken = async () => {
     try {
       const { data } = await auth.checkToken({
@@ -213,6 +260,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Эффект, выполняющий авторизацию пользователя при монтировании,
+   * если токен прошел проверку
+   */
   useEffect(() => {
     const jwt = localStorage.getItem(JWT);
 
