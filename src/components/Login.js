@@ -2,7 +2,7 @@ import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 
-const Login = ({ onAuthorization }) => {
+const Login = ({ onAuthorization, onCheckToken }) => {
   const {
     values,
     handleInputChange,
@@ -10,13 +10,15 @@ const Login = ({ onAuthorization }) => {
     isValid,
   } = useFormWithValidation();
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    onAuthorization({
+    await onAuthorization({
       password: values.password,
       email: values.email,
     });
+
+    await onCheckToken();
   };
 
   const markup = (

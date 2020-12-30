@@ -187,7 +187,6 @@ const App = () => {
   const handleRegistration = async ({ password, email }) => {
     try {
       const data = await auth.register({ password, email });
-
       if (data.hasOwnProperty('error')) {
         handleInfoTooltipOpen(false);
       } else {
@@ -199,26 +198,26 @@ const App = () => {
     }
   };
 
+  const handleCheckToken = async () => {
+    try {
+      const { data } = await auth.checkToken({
+        token: localStorage.getItem(JWT),
+      });
+      if (data) {
+        setLoggedIn(true);
+        setAuthorizedUserData(data);
+        history.push('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     const jwt = localStorage.getItem(JWT);
 
-    const fetchData = async () => {
-      try {
-        const { data } = await auth.checkToken({
-          token: localStorage.getItem(JWT),
-        });
-        if (data) {
-          setLoggedIn(true);
-          setAuthorizedUserData(data);
-          history.push('/');
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     if (jwt) {
-      fetchData();
+      handleCheckToken();
     }
   }, []);
 
@@ -273,7 +272,10 @@ const App = () => {
           />
           <Switch>
             <Route path={signIn}>
-              <Login onAuthorization={handleAuthorization} />
+              <Login
+                onAuthorization={handleAuthorization}
+                onCheckToken={handleCheckToken}
+              />
             </Route>
             <Route path={signUp}>
               <Register onRegistration={handleRegistration} />
