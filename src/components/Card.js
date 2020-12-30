@@ -10,11 +10,13 @@ const Card = function ({ card, onCardClick, onDeleteButtonClick, onCardLike }) {
     onCardClick(card);
   };
 
-  const handleDeleteButtonClick = () => {
+  const handleDeleteButtonClick = (evt) => {
+    evt.stopPropagation();
     onDeleteButtonClick(card);
   };
 
-  const handleLikeClick = () => {
+  const handleLikeClick = (evt) => {
+    evt.stopPropagation();
     onCardLike(card);
   };
 
@@ -24,10 +26,7 @@ const Card = function ({ card, onCardClick, onDeleteButtonClick, onCardLike }) {
         className={`elements__delete-card ${
           isOwn ? '' : 'elements__delete-card_hidden'
         }`}
-        onClick={(evt) => {
-          evt.stopPropagation();
-          handleDeleteButtonClick();
-        }}
+        onClick={handleDeleteButtonClick}
       />
       <img src={card.link} alt={card.name} className="elements__img" />
       <div className="elements__container">
@@ -37,10 +36,7 @@ const Card = function ({ card, onCardClick, onDeleteButtonClick, onCardLike }) {
             className={`elements__like-button ${
               isLiked ? 'elements__like-button_active' : ''
             }`}
-            onClick={(evt) => {
-              evt.stopPropagation();
-              handleLikeClick();
-            }}
+            onClick={handleLikeClick}
           />
           <span className="elements__like-count">{card.likes.length}</span>
         </div>
