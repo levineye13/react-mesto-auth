@@ -52,6 +52,7 @@
 @import url('./blocks/page/__popup/page__auth-popup.css');
 @import url('./blocks/popup/__wrapper/popup__wrapper.css');
 @import url('./blocks/popup/__wrapper/_type/popup__wrapper_type_info-tooltip.css');
+@import url('./blocks/popup/__wrapper/_type/popup__wrapper_type_image.css');
 @import url('./blocks/popup/__close-button/popup__close-button.css');
 @import url('./blocks/popup/__form/popup__form.css');
 @import url('./blocks/popup/__form/_theme/popup__form_theme_dark.css');

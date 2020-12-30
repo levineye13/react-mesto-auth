@@ -9,7 +9,7 @@ const ImagePopup = function ({ card, onClose, onScreenClickClose }) {
       className={`popup popup_type_image ${card ? 'popup_opened' : ''}`}
       onClick={onScreenClickClose}
     >
-      <div className="popup__wrapper">
+      <div className="popup__wrapper popup__wrapper_type_image">
         <button
           className={card && 'popup__close-button button'}
           onClick={onClose}
