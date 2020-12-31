@@ -254,6 +254,8 @@ const App = () => {
         setLoggedIn(true);
         setAuthorizedUserData(data);
         history.push('/');
+      } else {
+        localStorage.removeItem(JWT);
       }
     } catch (err) {
       console.error(err);
