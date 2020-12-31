@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const InfoTooltip = ({ isOpen, onClose, onScreenClickClose, isSuccessful }) => {
-  const modalElement = document.getElementById('modal');
-
-  return ReactDOM.createPortal(
+  return (
     <section
       className={`popup popup_type_info-tooltip ${
         isOpen ? 'popup_opened' : ''
@@ -28,8 +26,7 @@ const InfoTooltip = ({ isOpen, onClose, onScreenClickClose, isSuccessful }) => {
           </figcaption>
         </figure>
       </div>
-    </section>,
-    modalElement
+    </section>
   );
 };
 

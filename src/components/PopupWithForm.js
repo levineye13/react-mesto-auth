@@ -14,11 +14,9 @@ const PopupWithForm = ({
   link,
   hasCloseButton = true,
 }) => {
-  const modalElement = document.getElementById('modal');
-
   const isAuthPopup = name === 'register' || name === 'login';
 
-  const markupPopup = (
+  return (
     <section
       className={`popup popup_type_${name} ${
         isAuthPopup ? 'page__auth-popup' : ''
@@ -65,12 +63,6 @@ const PopupWithForm = ({
       </div>
     </section>
   );
-
-  //Попапы регистрации и авторизации не вырываем из потока, остальные попапы имеют
-  //фиксированное позиционирование и отправляются в блок с модалками
-  return isAuthPopup
-    ? markupPopup
-    : ReactDOM.createPortal(markupPopup, modalElement);
 };
 
 export default PopupWithForm;
