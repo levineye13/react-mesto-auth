@@ -10,25 +10,28 @@ const Card = function ({ card, onCardClick, onDeleteButtonClick, onCardLike }) {
     onCardClick(card);
   };
 
-  const handleDeleteButtonClick = (evt) => {
-    evt.stopPropagation();
+  const handleDeleteButtonClick = () => {
     onDeleteButtonClick(card);
   };
 
-  const handleLikeClick = (evt) => {
-    evt.stopPropagation();
+  const handleLikeClick = () => {
     onCardLike(card);
   };
 
   return (
-    <li className="elements__item" onClick={handleClick}>
+    <li className="elements__item">
       <button
         className={`elements__delete-card ${
           isOwn ? '' : 'elements__delete-card_hidden'
         }`}
         onClick={handleDeleteButtonClick}
       />
-      <img src={card.link} alt={card.name} className="elements__img" />
+      <img
+        src={card.link}
+        alt={card.name}
+        className="elements__img"
+        onClick={handleClick}
+      />
       <div className="elements__container">
         <h2 className="elements__title">{card.name}</h2>
         <div className="elements__group">
